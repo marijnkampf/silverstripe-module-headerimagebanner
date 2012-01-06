@@ -1,0 +1,4 @@
+#slider { list-style: none; margin:0px; padding: 0px;}
+.nivoSlider { position:relative; background:url(../../thridparty/nivo-slider/themes/default/loading.gif) no-repeat 50% 50%; }
+.nivoSlider img { position:absolute; top:0px; left:0px; display:block !important; }
+.nivoSlider a { border:0; display:block; }
