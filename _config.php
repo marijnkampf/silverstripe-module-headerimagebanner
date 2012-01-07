@@ -5,7 +5,7 @@ Object::add_extension('Page_Controller', 'HeaderImageBanner_Controller');
 
 Object::add_extension('SiteConfig', 'HeaderImageBanner');
 
-/** Setting for mysite/_config.php **/ See readme.md
+/** Setting for mysite/_config.php See readme.md **/ 
 /*
 HeaderImageBanner::$hibMaxImages = 0; 								// Set maximum number of images per page 0 = no limit
 
