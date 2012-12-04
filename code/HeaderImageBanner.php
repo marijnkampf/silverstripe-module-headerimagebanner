@@ -95,7 +95,7 @@ Template:
 				if (isset($tempImages) && ($tempImages->Count() > 0)) $hibImages->merge($tempImages);
 			}
 		}
-		return $images;
+		return $hibImages;
 	}
 	
 	function getAllHibImages() {
@@ -122,13 +122,12 @@ Template:
 	
 	function showHibImages($maxCount = false, $recursive = true) {
 		if ($maxCount == false) $maxCount = HeaderImageBanner::$hibMaxImages;
-		if ($this->hibCachedImages) {
+		if ((isset($this->hibCachedImages)) && ($this->hibCachedImages)) {
 			while($this->hibCachedImages->Count() > $maxCount) $this->hibCachedImages->pop();
 			return $this->hibCachedImages;
 		}
 
 		$images = $this->owner->hibImages();
-		
 		if (($recursive) && ($images->Count() == 0) && (is_array(HeaderImageBanner::$hibDefaultToType))) foreach(HeaderImageBanner::$hibDefaultToType as $action) {
 			if (!isset($images) || (count($images) == 0)) {
 				switch($action) {
@@ -157,11 +156,13 @@ Template:
 		$this->hibCachedImages = new DataObjectSet();
 
 		// Copy randomized
-		$keys = array_keys($images->items);
-		while((($this->hibCachedImages->Count() < $maxCount) || ($maxCount == 0)) && (count($keys) > 0)) {
-			$rndKey = array_rand($keys);
-			if (isset($images->items[$rndKey])) $this->hibCachedImages->push($images->items[$rndKey]);
-			unset($keys[$rndKey]);
+		if (isset($images->items)) {
+			$keys = array_keys($images->items);
+			while((($this->hibCachedImages->Count() < $maxCount) || ($maxCount == 0)) && (count($keys) > 0)) {
+				$rndKey = array_rand($keys);
+				if (isset($images->items[$rndKey])) $this->hibCachedImages->push($images->items[$rndKey]);
+				unset($keys[$rndKey]);
+			}
 		}
 		return $this->hibCachedImages;
 	}
