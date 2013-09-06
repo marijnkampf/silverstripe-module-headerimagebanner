@@ -1,0 +1,3 @@
+[submodule "thridparty/nivo-slider"]
+	path = thridparty/nivo-slider
+	url = https://github.com/gilbitron/Nivo-Slider.git
