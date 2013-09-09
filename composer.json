@@ -1,6 +1,6 @@
 {
 	"name": "exadium/silverstripe-module-header-image-banner",
-	"description": "Include header image banners in templates of your SilverStripe website. If no banner image(s) are defined you can set whether the use images from parents, children, site config, or all available. If multiple images are used they are displayed using Nivo slider.",
+	"description": "Include header image banners in templates of your SilverStripe website. If no banner image(s) are defined you can set whether the use images from parents, children, site config, or all available. If multiple images are used they are displayed using Nivo slider (included).",
 	"type": "silverstripe-module",
 	"keywords": ["silverstripe", "header", "images", "banner", "image banner", "image header", "slider"],
 	"authors": [
