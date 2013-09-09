@@ -15,10 +15,7 @@ Easily include header image banners in templates of your SilverStripe website. I
 
 ## Requirements
 
-* SilverStripe Trunk
-* DataObjectManager https://github.com/unclecheese/DataObjectManager
-* Uploadify https://github.com/unclecheese/Uploadify
-
+* SilverStripe 3.0
 * Nivo-slider (included) 
 * Requires jQuery version 1.5 (included)
 
