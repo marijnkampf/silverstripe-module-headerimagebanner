@@ -103,18 +103,8 @@ Template:
 		return $hibImages;
 	}
 	
-	function getAllHibImages() {
-		//return DataObject::get("hibImage", "", "RAND()");
-		return DataObject::get("hibImage");
-		
-	}
-	
 	function startSlider() {
-//			Debug::Show("start?");
-//		if ($this->hibCachedImages->Count() > 1) {
-//			Debug::Show("start");
-			Requirements::javascript(HeaderImageBanner::$hibFolder . "/javascript/startslider.js");
-//		}
+		Requirements::javascript(HeaderImageBanner::$hibFolder . "/javascript/startslider.js");
 	}
 	
 	function showSlider() {
@@ -126,22 +116,17 @@ Template:
 	}
 	
 	function showHibImages($maxCount = false, $recursive = true) {
-//Debug::Show("showHibImages($maxCount = false, $recursive = true)");
 		if ($maxCount == false) $maxCount = HeaderImageBanner::$hibMaxImages;
 		if ((isset($this->hibCachedImages)) && ($this->hibCachedImages)) {
 			while($this->hibCachedImages->Count() > $maxCount) $this->hibCachedImages->pop();
 			return $this->hibCachedImages;
 		}
 
-		$images = $this->owner->hibImages();
-		
+		$images = new ArrayList($this->owner->hibImages()->toArray());
 
 		if (($recursive) && ($images->Count() == 0) && (is_array(HeaderImageBanner::$hibDefaultToType))) foreach(HeaderImageBanner::$hibDefaultToType as $action) {
 			if (!isset($images) || (count($images) == 0)) {
 				switch($action) {
-					case 'All':
-						$images = $this->getAllHibImages($maxCount, false);
-					break;
 					case 'Parent':
 						if (($this->owner->hasMethod("Parent")) && ($this->owner->Parent()->hasMethod("showHibImages"))) {
 							$images = $this->owner->Parent()->showHibImages(0, true);
@@ -163,12 +148,11 @@ Template:
 
 		$this->hibCachedImages = new ArrayList();
 
-		// Copy randomized
 		if ($images->Count() > 0) {
-			$keys = $images->getIDList();
+			$keys = $images->column("ID");
 			while((($this->hibCachedImages->Count() < $maxCount) || ($maxCount == 0)) && (count($keys) > 0)) {
 				$rndKey = array_rand($keys);
-				$this->hibCachedImages->push($images->byID($rndKey));
+				$this->hibCachedImages->push($images[$rndKey]);
 				unset($keys[$rndKey]);
 			}
 		}

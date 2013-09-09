@@ -35,11 +35,13 @@ Options can be set in mysite/_config.php
 * `HeaderImageBanner::$hibHeight = 150;`
 	Set height of your banner image
 
-* `HeaderImageBanner::$hibDefaultToType = array("Parent", "SiteConfig", "Children", "All");`
+* `HeaderImageBanner::$hibDefaultToType = array("Parent", "SiteConfig", "Children");`
 	Order in which to search for images
 	Parent: uses banner images from parent page, if parent doesn't have any it look at the parent of the parent, etc.
 	SiteConfig: uses banner images defined in SiteConfig
 	Children: uses banner images in Children and the Children's children, etc.
+
+Please note the all functionality available in SS 2.4 is no longer available.
 	All: Uses all images that are defined as hibImage in the database.
 	(TODO Folder: Use images from specific folder)
 
