@@ -1,5 +1,5 @@
 <?php
-class HeaderImageBanner extends DataObjectDecorator {
+class HeaderImageBanner extends DataExtension {
 	/*
 HeaderImageBanner
 
@@ -47,23 +47,21 @@ Template:
 	
 	public static $hibDefaultToType = array("Parent", "SiteConfig", "Children", "All");
 
-	public static $hibCMSTabs = array("SiteConfig" => "Root.HeaderImageBanners", "default" => "Root.Content.HeaderImageBanners");
+	public static $hibCMSTabs = array("SiteConfig" => "Root.HeaderImageBanners", "default" => "Root.HeaderImageBanners");
 
 	public static $hibCMSUserEdit = true;
 	
-	function extraStatics() {
-		return array(
-      'many_many' => array(
-         'hibImages' => 'hibImage'
-      )
-    );
-  }
+	static $many_many = array(
+    'hibImages' => 'Image'
+  );
   
   public function hibGetWidth() {
+		//return $this->config()->hibWidth;
   	return HeaderImageBanner::$hibWidth;
   }
   
   public function hibGetHeight() {
+		//return $this->config()->hibHeight;
   	return HeaderImageBanner::$hibHeight;
   }
   
@@ -75,18 +73,25 @@ Template:
   	return Rnd();
   }
 
-	public function updateCMSFields(&$fields) {
+	public function updateCMSFields(FieldList $fields) {
 		//$fields->addFieldToTab(HeaderImageBanner::$hibCMSTab, new DropDownField('hibHeaderImagesType', 'If no header image, select from', $this->dbObject('hibHeaderImagesType')->enumValues()));
 		if (HeaderImageBanner::$hibCMSUserEdit) {
 			if (isset(HeaderImageBanner::$hibCMSTabs[$this->owner->ClassName])) $tabs = HeaderImageBanner::$hibCMSTabs[$this->owner->ClassName];
 			else if (isset(HeaderImageBanner::$hibCMSTabs["default"])) $tabs = HeaderImageBanner::$hibCMSTabs["default"];
-			else $tabs = "Root.Content.HeaderImageBanners";
-	  	$fields->addFieldToTab($tabs, $fup = new MultipleFileUploadField('hibImages', HeaderImageBanner::hibGetCMSCaption()));
+			else $tabs = "Root.HeaderImageBanners";
+
+			$upload = new UploadField('hibImages', HeaderImageBanner::hibGetCMSCaption());
+			$upload->setConfig('allowedMaxFileNumber', 25);
+			$upload->getValidator()->setAllowedExtensions(array('jpg','jpeg','gif','png'));
+			$fields->addFieldToTab($tabs, $upload);
+
+//	  	$fields->addFieldToTab($tabs, $upload = new UploadField('hibImages', HeaderImageBanner::hibGetCMSCaption()));
+//			$uf->setConfig('allowedMaxFileNumber', 10);
 	  }
 	}
 
 	function hibImagesFromChildren() {
-		$hibImages = new DataObjectSet();
+		$hibImages = new ArrayList();
 		if ($this->owner->hasMethod("Children")) {
 			if ($this->owner->Children()) foreach($this->owner->Children() as $child) {
 				$tempImages = $child->showHibImages(0, false);
@@ -121,6 +126,7 @@ Template:
 	}
 	
 	function showHibImages($maxCount = false, $recursive = true) {
+//Debug::Show("showHibImages($maxCount = false, $recursive = true)");
 		if ($maxCount == false) $maxCount = HeaderImageBanner::$hibMaxImages;
 		if ((isset($this->hibCachedImages)) && ($this->hibCachedImages)) {
 			while($this->hibCachedImages->Count() > $maxCount) $this->hibCachedImages->pop();
@@ -128,6 +134,8 @@ Template:
 		}
 
 		$images = $this->owner->hibImages();
+		
+
 		if (($recursive) && ($images->Count() == 0) && (is_array(HeaderImageBanner::$hibDefaultToType))) foreach(HeaderImageBanner::$hibDefaultToType as $action) {
 			if (!isset($images) || (count($images) == 0)) {
 				switch($action) {
@@ -153,14 +161,14 @@ Template:
 			}
 		}
 
-		$this->hibCachedImages = new DataObjectSet();
+		$this->hibCachedImages = new ArrayList();
 
 		// Copy randomized
-		if (isset($images->items)) {
-			$keys = array_keys($images->items);
+		if ($images->Count() > 0) {
+			$keys = $images->getIDList();
 			while((($this->hibCachedImages->Count() < $maxCount) || ($maxCount == 0)) && (count($keys) > 0)) {
 				$rndKey = array_rand($keys);
-				if (isset($images->items[$rndKey])) $this->hibCachedImages->push($images->items[$rndKey]);
+				$this->hibCachedImages->push($images->byID($rndKey));
 				unset($keys[$rndKey]);
 			}
 		}
@@ -169,7 +177,7 @@ Template:
 }
 
 
-class HeaderImageBanner_Controller extends DataObjectDecorator {
+class HeaderImageBanner_Controller extends DataExtension {
 	function onAfterInit() {
 		Requirements::css(HeaderImageBanner::$hibFolder . "/templates/css/headerimagebanner.css", "screen");
 		Requirements::css(HeaderImageBanner::$hibFolder . "/thridparty/nivo-slider/themes/default/default.css", "screen");

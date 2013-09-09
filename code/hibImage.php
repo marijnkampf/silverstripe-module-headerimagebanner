@@ -1,35 +1,22 @@
 <?php
 
-class hibImage extends Image {
-/*
- function extraStatics() {
-			return array(
-					'belongs_many_many' => array(
-							'HeaderImageBanners' => 'HeaderImageBanner',
-					),
-			);
-	} 	
-*/
+class hibImage extends DataExtension {
 	static $belongs_many_many = array (
 		'HeaderImageBanners' => 'HeaderImageBanner'
 	);
 	
 	function hibCroppedImage() {
-	//Debug::Show($this->owner);
-//		$image = DataObject::get_by_id('File', $this->owner->ID);		
-//Debug::Show($image);		
-		return $this->CroppedImage(HeaderImageBanner::$hibWidth, HeaderImageBanner::$hibHeight);
+		return $this->owner->croppedImage(HeaderImageBanner::$hibWidth, HeaderImageBanner::$hibHeight);
 	}
 	
 	function random() {
-		Debug::Show(rand());
 		return rand();
 	}
 
 }
 
 
-class hibPageImage extends Image {
+class hibPageImage extends DataExtension {
 	static $belongs_many_many = array (
 		'HeaderImageBanners' => 'Page'
 	);

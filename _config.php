@@ -1,5 +1,8 @@
 <?php
 
+Object::add_extension('Image', 'hibImage');
+Object::add_extension('Image', 'hibPageImage');
+
 Object::add_extension('Page', 'HeaderImageBanner');
 Object::add_extension('Page_Controller', 'HeaderImageBanner_Controller');
 
