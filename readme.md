@@ -11,7 +11,7 @@
 
 ## Introduction
 
-Easily include header image banners in templates of your SilverStripe website. If no banner image(s) are defined you can set whether the use images from parents, children or site config (the all visible option from the 2.4 has been removed due to difference in structure). If multiple images are used they are displayed using Nivo slider.
+Easily include header image banners in templates of your SilverStripe website. If no banner image(s) are defined you can set whether the use images from parents, children or site config. If multiple images are used they are displayed using Nivo slider.
 
 ## Requirements
 
