@@ -32,7 +32,7 @@ Template:
 	 * Random headerImage cache to ensure multiple calls
 	 * from page return same headerImage
 	 */
-	private static $hibCachedImages = false;
+	private $hibCachedImages = false;
 	public static $hibFolder = 'headerimagebanner';
 
 	public static $hibMaxImages = 0; // 0 = no limit
