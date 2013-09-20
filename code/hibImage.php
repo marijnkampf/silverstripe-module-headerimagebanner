@@ -12,7 +12,6 @@ class hibImage extends DataExtension {
 	function random() {
 		return rand();
 	}
-
 }
 
 
