@@ -10,24 +10,24 @@ Settings:
 		Random
 		Slider
 
-		Max banner images		
+		Max banner images
 		Folder (that has selected image)
-	
+
 	When no banner specified
 		Parent banner / Child banner
 		Folder
 		Fixed default
-		
+
 	Changed by user (yes/no)
-	
-	
+
+
 Usage
 _config.php
 
 Template:
 	<% include HeaderImageBanner %>
 	*/
-	
+
 	/**
 	 * Random headerImage cache to ensure multiple calls
 	 * from page return same headerImage
@@ -37,38 +37,38 @@ Template:
 
 	public static $hibMaxImages = 0; // 0 = no limit
 	public static $hibUseFolder = false;
-	
+
 	public static $includeJQuery = true;
-	
+
 	public static $hibWidth = 600;
 	public static $hibHeight = 150;
-	
+
 	public static $hibCMSCaption = 'Header Image Banner(s)';
-	
+
 	public static $hibDefaultToType = array("Parent", "SiteConfig", "Children", "All");
 
 	public static $hibCMSTabs = array("SiteConfig" => "Root.HeaderImageBanners", "default" => "Root.HeaderImageBanners");
 
 	public static $hibCMSUserEdit = true;
-	
+
 	static $many_many = array(
     'hibImages' => 'Image'
   );
-  
+
   public function hibGetWidth() {
 		//return $this->config()->hibWidth;
   	return HeaderImageBanner::$hibWidth;
   }
-  
+
   public function hibGetHeight() {
 		//return $this->config()->hibHeight;
   	return HeaderImageBanner::$hibHeight;
   }
-  
+
   public function hibGetCMSCaption() {
   	return HeaderImageBanner::$hibCMSCaption . " (" . HeaderImageBanner::$hibWidth . " x " . HeaderImageBanner::$hibHeight . " px)";
   }
-  
+
   public function hibRandom() {
   	return Rnd();
   }
@@ -102,19 +102,19 @@ Template:
 		}
 		return $hibImages;
 	}
-	
+
 	function startSlider() {
 		Requirements::javascript(HeaderImageBanner::$hibFolder . "/javascript/startslider.js");
 	}
-	
+
 	function showSlider() {
 		return ($this->hibCachedImages->Count() > 1);
 	}
-	
+
 	function singleHibImage() {
-		return ($this->hibCachedImages->Count() == 1);		
+		return ($this->hibCachedImages->Count() == 1);
 	}
-	
+
 	function showHibImages($maxCount = false, $recursive = true) {
 		if ($maxCount == false) $maxCount = HeaderImageBanner::$hibMaxImages;
 		if ((isset($this->hibCachedImages)) && ($this->hibCachedImages)) {
@@ -133,7 +133,7 @@ Template:
 						}
 					break;
 					case 'SiteConfig':
-						$config = SiteConfig::current_site_config(); 
+						$config = SiteConfig::current_site_config();
 						if ($config->hasMethod("showHibImages")) {
 							$images = $config->showHibImages(0, false);
 						}
