@@ -1,10 +1,14 @@
 <?php
 
-Object::add_extension('Image', 'hibImage');
-Object::add_extension('Image', 'hibPageImage');
+// Ensure compatibility with PHP 7.2 ("object" is a reserved word),
+// with SilverStripe 3.6 (using Object) and SilverStripe 3.7 (using SS_Object)
+if (!class_exists('SS_Object')) class_alias('Object', 'SS_Object');
 
-Object::add_extension('Page', 'HeaderImageBanner');
-Object::add_extension('Page_Controller', 'HeaderImageBanner_Controller');
+SS_Object::add_extension('Image', 'hibImage');
+SS_Object::add_extension('Image', 'hibPageImage');
+
+SS_Object::add_extension('Page', 'HeaderImageBanner');
+SS_Object::add_extension('Page_Controller', 'HeaderImageBanner_Controller');
 
 Object::add_extension('SiteConfig', 'HeaderImageBanner');
 
