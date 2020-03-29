@@ -10,7 +10,7 @@ SS_Object::add_extension('Image', 'hibPageImage');
 SS_Object::add_extension('Page', 'HeaderImageBanner');
 SS_Object::add_extension('Page_Controller', 'HeaderImageBanner_Controller');
 
-Object::add_extension('SiteConfig', 'HeaderImageBanner');
+SS_Object::add_extension('SiteConfig', 'HeaderImageBanner');
 
 /** Setting for mysite/_config.php See readme.md **/ 
 /*
